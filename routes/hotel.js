@@ -13,6 +13,7 @@ router.post('/add/hotel', upload.array('image', 3), function (req, res) {
     //     })
     // }
     const name = req.body.name
+    const description = req.body.description
     const price = req.body.price
     const location = req.body.location
     const rooms = req.body.rooms
@@ -25,6 +26,7 @@ router.post('/add/hotel', upload.array('image', 3), function (req, res) {
    
     const hotelData = new Hotel({
         name: name,
+        description:description,
         price: price,
         location: location,
         rooms: rooms,
@@ -83,7 +85,7 @@ router.get("/hotel/all", function (req, res) {
 
 router.get("/hotel/:id", function (req, res) {
     const id = req.params.id;
-    Item.findById({ _id: id })
+    Hotel.findById({ _id: id })
         .then(function (data) {
             res.status(200).json(data);
         })

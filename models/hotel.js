@@ -5,7 +5,10 @@ const Hotel = mongoose.model("Hotel", {
         type: String,
         required: [true, 'Enter hotel name']
     },
-
+    description: {
+        type: String,
+        required: [true, 'Enter hotel description']
+    },
     price: {
         type: Number,
         required: [true, 'Enter room price']
