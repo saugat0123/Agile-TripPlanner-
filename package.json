@@ -1,10 +1,17 @@
 {
   "name": "tripplannerapi",
   "version": "1.0.0",
-  "description": "first sprint",
-  "main": " ",
+  "description": "REST API for TripPlanner web-application",
+  "main": "app.js",
+  "directories": {
+    "test": "tests"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saugat0123/Agile-TripPlanner-.git"
   },
   "author": "Saugat",
   "license": "ISC",
@@ -12,10 +19,18 @@
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
+    "express-session": "^1.17.1",
     "express-validator": "^6.9.2",
-    "jest": "^26.6.3",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.11.12",
-    "multer": "^1.4.2"
-  }
+    "mongoose": "^5.11.11",
+    "multer": "^1.4.2",
+    "passport": "^0.4.1",
+    "path": "^0.12.7",
+    "session": "^0.1.0"
+  },
+  "bugs": {
+    "url": "https://github.com/saugat0123/Agile-TripPlanner-/issues"
+  },
+  "homepage": "https://github.com/saugat0123/Agile-TripPlanner-#readme"
 }
