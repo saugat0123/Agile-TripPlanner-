@@ -5,7 +5,7 @@ const session = require('express-session')
 const route = require('./routes/routes')
 const oroute = require('./routes/orderRoutes')
 const oute = require('./routes/Store_Routes')
-const froute = require('./routes/Item_Routes')
+const iroute = require('./routes/Item_Routes')
 const db = require('./database/db')
 const broute = require('./routes/bookingRoutes')
 
@@ -24,7 +24,7 @@ app.use(cors())
 app.use(route)
 
 app.use(broute);
-app.use(froute);
+app.use(iroute);
 app.use(oroute);
 app.use(oute);
 
