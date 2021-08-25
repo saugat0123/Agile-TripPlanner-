@@ -99,11 +99,7 @@ res.status(200).json({success:true,data:data})
 
     })
 
-
-
   })
-
-
 
 router.get('/getRest',(req, res, next) => {
 

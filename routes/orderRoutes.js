@@ -1,7 +1,7 @@
 const express = require('express')
 const {verifyAdmin, verifyEmployee, verifyUser} = require('../middleware/auth')
 const router = express.Router()
-const booking = require('../modules/Booking')
+const booking = require('../modules/Cart')
 const Order = require('../modules/order')
 const order = require('../modules/order')
 

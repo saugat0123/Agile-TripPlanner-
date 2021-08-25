@@ -1,4 +1,4 @@
-const Product = require('../modules/Booking');
+const Product = require('../modules/Cart');
 const mongoose = require('mongoose');
 // use the new name of the database
 const url = 'mongodb://localhost:27017/FoodApplication';
@@ -22,10 +22,10 @@ describe('Product Schema test anything', () => {
 
  "Date":"5"
  };
- 
+
  return Product.create(product)
  .then((pro_ret) => {
-    
+
  expect(pro_ret.Date).toEqual('5');
  });
  });
@@ -37,5 +37,5 @@ describe('Product Schema test anything', () => {
  })
 
 
-    
+
    })

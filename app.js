@@ -7,8 +7,8 @@ const oroute = require('./routes/orderRoutes')
 const oute = require('./routes/Store_Routes')
 const iroute = require('./routes/Item_Routes')
 const db = require('./database/db')
-const broute = require('./routes/bookingRoutes')
-
+const broute = require('./routes/cartRoutes')
+const hroute = require('./routes/Hotel_Routes')
 
 const cors = require('cors');
 
@@ -27,10 +27,7 @@ app.use(broute);
 app.use(iroute);
 app.use(oroute);
 app.use(oute);
-
-
-
-
+app.use(hroute);
 
 
 app.listen(3000)
