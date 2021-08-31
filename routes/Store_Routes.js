@@ -37,7 +37,6 @@ router.post( '/addResturant',verifyUser,verifyAdmin,upload.single('images'),(req
   router.put( '/upResturant/:id',verifyUser,verifyAdmin,upload.single('images'),(req, res) => {
     const name = req.body.name;
     const foodType = req.body.foodType;
-    const pincode = req.body.pincode;
     const address = req.body.address;
     const phone = req.body.phone;
   if(req.file){
@@ -47,7 +46,6 @@ router.post( '/addResturant',verifyUser,verifyAdmin,upload.single('images'),(req
     Store.findByIdAndUpdate({_id:req.params.id},{
       name: name,
       foodType: foodType,
-      pincode: pincode,
       address: address,
       phone: phone,
       rating:req.body.rating,
@@ -69,7 +67,6 @@ router.post( '/addResturant',verifyUser,verifyAdmin,upload.single('images'),(req
     Store.findByIdAndUpdate({_id:req.params.id},{
       name: name,
       foodType: foodType,
-      pincode: pincode,
       address: address,
       phone: phone,
       rating:req.body.rating,
@@ -105,11 +102,11 @@ router.get('/getRest',(req, res, next) => {
 
     Store.find().populate('items')
       .then((items) => {
-        console.log("items:::::::::",items)
+        // console.log("items:::::::::",items)
         res.status(200).json({success:true,data:items});
       })
       .catch((err) => {
-        return AppError.onError(res, "restaurant add error" + err);
+        return AppError.onError(res, "restaurant get error" + err);
       });
   });
 

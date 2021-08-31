@@ -1,7 +1,7 @@
 const express = require('express')
 const {verifyAdmin, verifyEmployee, verifyUser} = require('../middleware/auth')
 const router = express.Router()
-const booking = require('../modules/Cart')
+const Cart = require('../modules/Cart')
 const Order = require('../modules/order')
 const order = require('../modules/order')
 
@@ -11,7 +11,7 @@ router.post('/order', verifyUser, function (req, res) {
 
     let total = 0
     const user = req.user
-    booking.findOne({UserId: user._id}).populate('UserId').populate({path: 'ProductId.item'}).then(function (result) {
+    Cart.findOne({UserId: user._id}).populate('UserId').populate({path: 'ProductId.item'}).then(function (result) {
         let items = []
         result.ProductId.map((item) => {
 
@@ -48,7 +48,7 @@ router.post('/order', verifyUser, function (req, res) {
 
                 })
         })
-        booking.deleteOne({UserId: req.user._id})
+        Cart.deleteOne({UserId: req.user._id})
         res.status(200).json({
             success: true, data: od
         })

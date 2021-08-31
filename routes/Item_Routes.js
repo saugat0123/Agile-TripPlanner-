@@ -63,7 +63,6 @@ router.post('/add/:rid', upload.single('Image'), (req, res, next) => {
     const description = req.body.Description
     const rating = req.body.Rating
     const price = req.body.Price
-    const time = req.body.time;
     const image = req.file.filename
     let item
     let currentStore;

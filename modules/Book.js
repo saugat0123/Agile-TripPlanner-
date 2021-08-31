@@ -17,7 +17,7 @@ const bookschema = new mongoose.Schema({
         {
             item: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'Hotel'
+                ref: 'Room'
             },
             qty: {
                 type: Number,
@@ -34,14 +34,16 @@ const bookschema = new mongoose.Schema({
 })
 
 
-bookschema.methods.editBook = function (proItem, newQty) {
+bookschema.methods.editCart = function (proItem, newQty) {
     const itemIndex = this.ProductId.findIndex((cf) => {
         return cf.item._id.toString() === proItem._id.toString();
     });
 
     if (newQty < 1) {
         this.ProductId = this.ProductId.filter((cf) => {
-            return cf.item._id.toString() !== proItem._id.toString();
+            return cf.item._id.toString() !== this.ProductId.filter((cf) => {
+                return cf.item._id.toString() !== proItem._id.toString();
+            })._id.toString();
         });
         return this.save();
     } else {
