@@ -2,34 +2,34 @@ const {json} = require('express')
 const express = require('express')
 const {verifyUser} = require('../middleware/auth')
 const router = express.Router()
-const Booking = require('../modules/Book')
-const Item = require('../modules/Item')
+const Cart = require('../modules/Book')
+const Item = require('../modules/Room')
 
 const date = new Date().toLocaleDateString("en-IN").split("/").toString()
 
-router.post('/book/:pid', verifyUser, function (req, res) {
+router.post('/booking/:pid', verifyUser, function (req, res) {
     const uid = req.user._id
     const pid = req.params.pid
     const qtys = req.body.Qty
-    console.log("Quantity:::::::", qtys)
-    console.log("User ID:::::::", uid)
-    console.log("Pro ID::::::::", pid)
+    // console.log("Quantity:::::::", qtys)
+    // console.log("User ID:::::::", uid)
+    // console.log("Pro ID::::::::", pid)
     const map = [];
     let obj;
     let book
     obj = {item: pid, qty: qtys}
     map.push(obj)
 
-    Booking.findOne({UserId: uid}).then(function (book) {
+    Cart.findOne({UserId: uid}).then(function (book) {
 
-        console.log("booking details---------",book)
+
         if (!book) {
 
-            const booking = new Booking({UserId: uid, ProductId: [obj]})
+            const booking = new Cart({UserId: uid, ProductId: [obj]})
             booking.save().then(function (result) {
 
                 res.status(200).json({success: true, booking: true, data: booking})
-                console.log("booking saved details---------",result)
+
             }).catch(function (error) {
                 res.status(500).json({success: false})
 
@@ -37,8 +37,9 @@ router.post('/book/:pid', verifyUser, function (req, res) {
         } else {
             let newBooking = [];
             newBooking = book.ProductId
+            console.log("newBooking::::::", newBooking)
             let index = 0;
-            let data;
+            let data = 0;
             let milyo;
 
             for (data = 0; data < newBooking.length; data++) {
@@ -60,7 +61,7 @@ router.post('/book/:pid', verifyUser, function (req, res) {
                 newBooking.push(obj)
             }
 
-            Booking.findOneAndReplace({UserId: uid}, {
+            Cart.findOneAndReplace({UserId: uid}, {
                 UserId: uid,
                 ProductId: newBooking
             }).then(function (s) {
@@ -73,12 +74,12 @@ router.post('/book/:pid', verifyUser, function (req, res) {
 
 //productId is an object of Food wit quantity
 
-router.get('/bookingHotel/show', verifyUser, function (req, res) {
+router.get('/booking/show', verifyUser, function (req, res) {
 
     var user = req.user._id
     // console.log('User IDD::::::',user)
 
-    Booking.findOne({UserId: user}).populate('UserId').populate({path: 'ProductId.item'}).then(function (result) {
+    Cart.findOne({UserId: user}).populate('UserId').populate({path: 'ProductId.item'}).then(function (result) {
 
         let total = 0
 
@@ -117,10 +118,10 @@ router.get('/bookingHotel/show', verifyUser, function (req, res) {
 
 })
 
-router.put('/delete/bookingHotel/:oid', verifyUser, function (req, res) {
+router.put('/delete/booking/:oid', verifyUser, function (req, res) {
     const id = req.user._id
     console.log("Hanyo")
-    Booking.findOneAndUpdate({UserId: id}, {
+    Cart.findOneAndUpdate({UserId: id}, {
         $pull: {ProductId: {_id: req.params.oid}},
 
     }).then(function (s) {
@@ -132,21 +133,21 @@ router.put('/delete/bookingHotel/:oid', verifyUser, function (req, res) {
 })
 
 
-router.put('/updatebookingHotel/:pid', verifyUser, function (req, res, next) {
+router.put('/updatebooking/:pid', verifyUser, function (req, res, next) {
     const qty = req.body.Qty
     console.log(qty)
     const uid = req.user._id
     const pid = req.params.pid
 
     let book;
-    Booking.findOne({UserId: uid})
+    Cart.findOne({UserId: uid})
         .populate("ProductId.item")
         .then((booking) => {
             book = booking;
-            return Booking.findById(pid);
+            return Item.findById(pid);
         })
-        .then((item) => {
-            return book.editBook(item, qty);
+        .then((food) => {
+            return book.editCart(food, qty);
         })
         .then((result) => {
             res.status(200).json(result.ProductId);
@@ -172,10 +173,10 @@ router.put('/updatebookingHotel/:pid', verifyUser, function (req, res, next) {
 
 });
 
-router.put('/deleteBookingHotel', verifyUser, function (req, res) {
+router.put('/deleteBooking', verifyUser, function (req, res) {
 
 
-    Booking.updateOne({UserId: req.user._id},
+    Cart.updateOne({UserId: req.user._id},
         {$pullAll: {ProductId: [0], Qty: [3]}}).then(function (s) {
 
         res.status(200).json({message: "Deleted"})
@@ -185,7 +186,7 @@ router.put('/deleteBookingHotel', verifyUser, function (req, res) {
 })
 router.delete('/deleteCart', verifyUser, function (req, res) {
 
-    Booking.findOneAndDelete({UserId: req.user._id}).then(function (result) {
+    Cart.findOneAndDelete({UserId: req.user._id}).then(function (result) {
 
         res, status(200).json({message: "Booking Deleted"})
 
